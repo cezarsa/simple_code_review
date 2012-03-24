@@ -6,11 +6,20 @@ class SimpleCodeReview < Sinatra::Base
     Mongoid.load!("models/mongoid.yml")
   end
 
-  get "/" do
-    repo = Repository.new(:url => 'git://github.com/globocom/thumbor.git')
-    repo.save
+  configure :development do
+    register Sinatra::Reloader
+  end
 
-    "Repo: #{repo.url}"
+  get "/" do
+    repo = Repository.where(:name => 'thumbor').first
+    unless repo
+      repo = Repository.new(:name => 'thumbor', :url => 'git://github.com/globocom/thumbor.git')
+      repo.save!
+    end
+
+    git_repo = repo.git_repo
+
+    "Repo: #{git_repo.commit_count} commits"
   end
 
 end
