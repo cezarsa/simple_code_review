@@ -1,4 +1,5 @@
 source :rubygems
 
 gem 'sinatra', :require => "sinatra/base"
-gem 'dm-mongo-adapter'
+gem 'mongoid'
+gem 'bson_ext'
