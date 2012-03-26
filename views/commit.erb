@@ -1,0 +1,7 @@
+
+<% @commit.diffs.each do |diff| %>
+<h2><%= diff.a_path %></h2>
+<pre>
+<%= diff.diff %>
+</pre>
+<% end %>

@@ -8,18 +8,48 @@ class SimpleCodeReview < Sinatra::Base
 
   configure :development do
     register Sinatra::Reloader
+    also_reload './models/*'
+  end
+
+  post "/repositories" do
+    repo = Repository.new(:name => params[:name].downcase, :url => params[:url].downcase)
+    if repo.save
+      redirect '/'
+    else
+      @errors = repo.errors
+      repositories_list
+    end
+  end
+
+  get(/\/(\w+)\/(\w+)$/) do |repository_name, commit_hash|
+    show_commit_diff(repository_name, commit_hash)
+  end
+
+  get(/\/(\w+)$/) do |repository_name|
+    list_repository_commits(repository_name)
   end
 
   get "/" do
-    repo = Repository.where(:name => 'thumbor').first
-    unless repo
-      repo = Repository.new(:name => 'thumbor', :url => 'git://github.com/globocom/thumbor.git')
-      repo.save!
-    end
+    repositories_list
+  end
 
-    git_repo = repo.git_repo
+  def show_commit_diff(repository_name, commit_hash)
+    @repository = Repository.where(:name => repository_name.downcase).first
+    @commit = @repository.commit(commit_hash)
 
-    "Repo: #{git_repo.commit_count} commits"
+    erb :commit
+  end
+
+  def list_repository_commits(repository_name)
+    @repository = Repository.where(:name => repository_name.downcase).first
+    halt 404 unless @repository
+
+    erb :commits
+  end
+
+  def repositories_list
+    @repositories = Repository.all
+    erb :index
   end
 
 end

@@ -1,0 +1,24 @@
+
+<ul>
+<% @repositories.each do |repo| %>
+    <li>
+        <a href="/<%= repo.name %>"><%= repo.name %> - <%= repo.url %></a>
+    </li>
+<% end %>
+</ul>
+
+<% if @errors %>
+    <div class="errors">
+        <% @errors.messages.each do |field, messages| %>
+            <% messages.each do |message| %>
+                <%= field.to_s %> <%= message %>
+            <% end %>
+        <% end %>
+    </div>
+<% end %>
+
+<form action="/repositories" method="post">
+    Name: <input type="text" name="name" value="<%= params[:name] %>" />
+    Url: <input type="text" name="url" value="<%= params[:url] %>" />
+    <input type="submit" value="Add" />
+</form>

@@ -27,4 +27,12 @@ class Repository
     end
     repo
   end
+
+  def commits
+    git_repo.log
+  end
+
+  def commit(hash)
+    git_repo.commit(hash)
+  end
 end

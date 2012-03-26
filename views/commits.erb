@@ -1,0 +1,7 @@
+<ul>
+    <% @repository.commits.each do |commit| %>
+        <li>
+            <a href="/<%=@repository.name%>/<%=commit.id%>"><%=commit.committer.name%> - <%=commit.message%></a>
+        </li>
+    <% end %>
+</ul>
