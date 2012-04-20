@@ -1,17 +1,20 @@
-
 class Repository
   include Mongoid::Document
 
   field :name, type: String
   field :url, type: String
 
-  validates_presence_of :name
-  validates_presence_of :url
+  belongs_to :owner, :class_name => 'User'
+  has_and_belongs_to_many :reviewers, :class_name => 'User'
+
+  validates_presence_of :name, :url, :owner
   validates_uniqueness_of :name
+
+  before_validation :generate_name
 
   def repo_path
     unless @repo_path
-      slug = url.gsub(/^(git:\/\/|https?:\/\/)/, '').gsub(/\/|:|\./, '-')
+      slug = url.gsub(/^(git|https?)(:\/\/|@)/, '').gsub(/\/|:|\./, '-')
       @repo_path = "/tmp/#{slug}"
     end
     return @repo_path
@@ -29,10 +32,23 @@ class Repository
   end
 
   def commits
+    git_repo.git.pull
     git_repo.log
   end
 
   def commit(hash)
     git_repo.commit(hash)
   end
+
+  def generate_name
+    return if self.name
+
+    groups = url.match(%r{^(?:git|https?)(?:://|@).*?(?:/|:)(.*?)\..*})
+    if groups
+      self.name = groups[1]
+    else
+      self.name = url.match(%r{^(?:git|https?)(?:://|@).*?(?:/|:)(.*)})[1]
+    end
+  end
+
 end

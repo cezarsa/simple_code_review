@@ -7,6 +7,7 @@ GEM
     activesupport (3.2.1)
       i18n (~> 0.6)
       multi_json (~> 1.0)
+    addressable (2.2.7)
     archive-tar-minitar (0.5.2)
     backports (2.3.0)
     bson (1.5.2)
@@ -16,9 +17,14 @@ GEM
     columnize (0.3.6)
     diff-lcs (1.1.3)
     eventmachine (0.12.10)
+    faraday (0.7.6)
+      addressable (~> 2.2)
+      multipart-post (~> 1.1)
+      rack (~> 1.1)
     grit (2.4.1)
       diff-lcs (~> 1.1)
       mime-types (~> 1.15)
+    hashie (1.2.0)
     i18n (0.6.0)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
@@ -30,6 +36,19 @@ GEM
       mongo (~> 1.3)
       tzinfo (~> 0.3.22)
     multi_json (1.0.4)
+    multipart-post (1.1.5)
+    oauth2 (0.5.2)
+      faraday (~> 0.7)
+      multi_json (~> 1.0)
+    omniauth (1.0.3)
+      hashie (~> 1.2)
+      rack
+    omniauth-github (1.0.1)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.0)
+    omniauth-oauth2 (1.0.0)
+      oauth2 (~> 0.5.0)
+      omniauth (~> 1.0)
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
@@ -66,6 +85,8 @@ DEPENDENCIES
   bson_ext
   grit
   mongoid
+  omniauth
+  omniauth-github
   ruby-debug19
   sinatra
   sinatra-contrib
