@@ -21,6 +21,15 @@ module UserHelpers
 
 end
 
+module UrlHelpers
+  def repository_url(repo)
+    "/#{repo.name}"
+  end
+  def commit_url(commit)
+    "/#{commit.repository.name}/#{commit.commit_hash}"
+  end
+end
+
 class AuthApp < Sinatra::Base
   use OmniAuth::Builder do
     provider :github, 'c3867515da369e35bbbe', '1c30a20aedd7777d6640234799a2d4c32418eece', scope: "user"
@@ -52,6 +61,7 @@ class SimpleCodeReview < Sinatra::Base
 
   use AuthApp
   helpers UserHelpers
+  helpers UrlHelpers
 
   post "/repositories" do
     require_login!
@@ -65,11 +75,28 @@ class SimpleCodeReview < Sinatra::Base
     end
   end
 
+  post %r"^/(\w+/\w+)/(\w+)/review$" do |repository_name, commit_hash|
+    @repository = Repository.where(:name => repository_name.downcase).first
+    halt 404 unless @repository
+
+    @commit = @repository.commits.where(:commit_hash => commit_hash).first
+    halt 404 unless @commit
+
+    @commit.reviews << Review.new(:user => current_user_id, :message => params[:message], :type => params[:type])
+
+    if @repository.save
+      redirect commit_url(@commit)
+    else
+      @errors = repo.errors
+      erb :commit
+    end
+  end
+
   get %r"^/(\w+/\w+)/(\w+)$" do |repository_name, commit_hash|
     @repository = Repository.where(:name => repository_name.downcase).first
     halt 404 unless @repository
 
-    @commit = @repository.commit(commit_hash)
+    @commit = @repository.commits.where(:commit_hash => commit_hash).first
     halt 404 unless @commit
 
     erb :commit
@@ -78,6 +105,8 @@ class SimpleCodeReview < Sinatra::Base
   get %r"^/(\w+/\w+)$" do |repository_name|
     @repository = Repository.where(:name => repository_name.downcase).first
     halt 404 unless @repository
+
+    @commits = @repository.commits.all
 
     erb :commits
   end

@@ -1,7 +1,40 @@
 
 <% @commit.diffs.each do |diff| %>
 <h2><%= diff.a_path %></h2>
+
 <pre>
 <%= diff.diff %>
 </pre>
+<% end %>
+
+<ul>
+<% @commit.reviews.each do |review| %>
+    <li>
+        <h4><%= review.user.name %></h3>
+        <span><%= review.friendly_type %>:</span>
+        <span><%= review.message %></span>
+    </li>
+<% end %>
+</ul>
+
+<% if logged_in? %>
+    <% if @errors %>
+        <div class="errors">
+            <% @errors.messages.each do |field, messages| %>
+                <% messages.each do |message| %>
+                    <%= field.to_s %> <%= message %>
+                <% end %>
+            <% end %>
+        </div>
+    <% end %>
+
+    <form action="<%= commit_url(@commit) %>/review" method="post">
+        <select name="type">
+            <% Review::REVIEW_TYPES.each do |k, v| %>
+                <option value="<%= k %>"><%= v %></option>
+            <% end %>
+        </select>
+        <textarea name="message"></textarea>
+        <input type="submit" value="Add" />
+    </form>
 <% end %>
