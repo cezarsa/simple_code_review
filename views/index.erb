@@ -16,15 +16,7 @@
 </ul>
 
 <% if logged_in? %>
-    <% if @errors %>
-        <div class="errors">
-            <% @errors.messages.each do |field, messages| %>
-                <% messages.each do |message| %>
-                    <%= field.to_s %> <%= message %>
-                <% end %>
-            <% end %>
-        </div>
-    <% end %>
+    <%= erb :_form_errors %>
 
     <form action="/repositories" method="post">
         Url: <input type="text" name="url" value="<%= params[:url] %>" />

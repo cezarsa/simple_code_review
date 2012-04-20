@@ -92,7 +92,7 @@ class SimpleCodeReview < Sinatra::Base
     end
   end
 
-  get %r"^/(\w+/\w+)/(\w+)$" do |repository_name, commit_hash|
+  get %r"^/(\w+/\w+)/(\w+)/?$" do |repository_name, commit_hash|
     @repository = Repository.where(:name => repository_name.downcase).first
     halt 404 unless @repository
 
@@ -102,10 +102,11 @@ class SimpleCodeReview < Sinatra::Base
     erb :commit
   end
 
-  get %r"^/(\w+/\w+)$" do |repository_name|
+  get %r"^/(\w+/\w+)/?$" do |repository_name|
     @repository = Repository.where(:name => repository_name.downcase).first
     halt 404 unless @repository
 
+    @repository.update_repository!
     @commits = @repository.commits.all
 
     erb :commits

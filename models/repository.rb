@@ -63,11 +63,6 @@ class Repository
   validates_uniqueness_of :name
 
   before_validation :generate_name
-  after_initialize :after_init
-
-  def after_init
-    git_repo
-  end
 
   def git_repo
     return @repo if @repo
@@ -79,15 +74,17 @@ class Repository
       gritgit.clone({:quiet => false, :verbose => true, :branch => 'master'}, url, repo_path)
       @repo = Grit::Repo.new(repo_path)
     end
+    @repo
+  end
 
-    @repo.git.pull
-    @repo.log.each do |raw_commit|
+  def update_repository!
+    git_repo.git.pull
+    git_repo.log.each do |raw_commit|
       commit = commits.where(:commit_hash => raw_commit.id).first
       break if commit
       commits << Commit.new(:commit_hash => raw_commit.id)
     end
     save!
-    @repo
   end
 
 protected
@@ -102,6 +99,7 @@ protected
 
   def generate_name
     return if self.name
+    return if self.url.empty?
 
     groups = url.match(%r{^(?:git|https?)(?:://|@).*?(?:/|:)(.*?)\..*})
     if groups

@@ -1,0 +1,9 @@
+<% if @errors %>
+    <div class="errors">
+        <% @errors.messages.each do |field, messages| %>
+            <% messages.each do |message| %>
+                <%= field.to_s %> <%= message %>
+            <% end %>
+        <% end %>
+    </div>
+<% end %>

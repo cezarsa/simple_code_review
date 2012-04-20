@@ -18,15 +18,7 @@
 </ul>
 
 <% if logged_in? %>
-    <% if @errors %>
-        <div class="errors">
-            <% @errors.messages.each do |field, messages| %>
-                <% messages.each do |message| %>
-                    <%= field.to_s %> <%= message %>
-                <% end %>
-            <% end %>
-        </div>
-    <% end %>
+    <%= erb :_form_errors %>
 
     <form action="<%= commit_url(@commit) %>/review" method="post">
         <select name="type">
