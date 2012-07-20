@@ -2,9 +2,9 @@
 <% @commit.diffs.each do |diff| %>
 <h2><%= diff.a_path %></h2>
 
-<pre>
-<%= diff.diff %>
-</pre>
+<div>
+    <%= CodeRay.scan(diff.diff, :diff).html(wrap: :div, line_numbers: :inline) %>
+</div>
 <% end %>
 
 <ul>

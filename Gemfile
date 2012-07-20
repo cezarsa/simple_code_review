@@ -7,7 +7,4 @@ gem 'bson_ext'
 gem 'grit'
 gem 'omniauth'
 gem 'omniauth-github'
-
-group :development do
-  gem 'ruby-debug19'
-end
+gem 'coderay'

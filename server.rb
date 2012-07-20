@@ -1,49 +1,6 @@
-require_relative "models/user"
-require_relative "models/repository"
-
-module UserHelpers
-
-  def current_user
-    @current_user = session[:user_id] && (@current_user || User.find(session[:user_id]))
-  end
-
-  def current_user_id
-    session[:user_id]
-  end
-
-  def logged_in?
-    !!current_user
-  end
-
-  def require_login!
-    redirect '/' unless logged_in?
-  end
-
-end
-
-module UrlHelpers
-  def repository_url(repo)
-    "/#{repo.name}"
-  end
-  def commit_url(commit)
-    "/#{commit.repository.name}/#{commit.commit_hash}"
-  end
-end
-
-class AuthApp < Sinatra::Base
-  use OmniAuth::Builder do
-    provider :github, 'c3867515da369e35bbbe', '1c30a20aedd7777d6640234799a2d4c32418eece', scope: "user"
-  end
-
-  get '/auth/github/callback' do
-    user = User.create_or_update_user(request.env['omniauth.auth'])
-    session[:user_id] = user.id
-    redirect '/'
-  end
-
-  get '/logout' do
-    session.delete :user_id
-    redirect '/'
+['apps', 'helpers', 'models'].each do |path|
+  Dir["#{path}/*.rb"].each do |file|
+    require_relative file
   end
 end
 
@@ -62,6 +19,7 @@ class SimpleCodeReview < Sinatra::Base
   use AuthApp
   helpers UserHelpers
   helpers UrlHelpers
+  helpers TemplateHelpers
 
   post "/repositories" do
     require_login!
