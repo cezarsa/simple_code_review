@@ -8,6 +8,8 @@ class Repository
   belongs_to :owner, :inverse_of => :owned_repositories, :class_name => 'User'
   has_and_belongs_to_many :reviewers, :inverse_of => :reviewer_repositories, :class_name => 'User'
 
+  scope :by_name, ->(name_part1, name_part2) { where(name: "#{name_part1}/#{name_part2}".downcase) }
+
   validates_presence_of :name, :url, :owner
   validates_uniqueness_of :name
 

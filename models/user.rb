@@ -18,7 +18,6 @@ class User
     basic_info = github_data[:info]
     extra_info = github_data[:extra][:raw_info]
     credentials = github_data[:credentials]
-    alternative_emails = emails
 
     user = User.where(:email => basic_info[:email]).first
     unless user
@@ -27,7 +26,8 @@ class User
     user.update_attributes!({
       :github_token => credentials[:token],
       :name => basic_info[:name],
-      :avatar_url => extra_info[:avatar_url]
+      :avatar_url => extra_info[:avatar_url],
+      :alternative_emails => emails || [basic_info[:email]]
     })
     
     user

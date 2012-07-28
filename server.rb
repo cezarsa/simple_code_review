@@ -33,8 +33,8 @@ class SimpleCodeReview < Sinatra::Base
     end
   end
 
-  post %r"^/(\w+/\w+)/(\w+)/review$" do |repository_name, commit_hash|
-    @repository = Repository.where(:name => repository_name.downcase).first
+  post "/:name_part1/:name_part2/:commit_hash/review" do |part1, part2, commit_hash|
+    @repository = Repository.by_name(part1, part2).first
     halt 404 unless @repository
 
     @commit = @repository.commits.where(:commit_hash => commit_hash).first
@@ -50,8 +50,8 @@ class SimpleCodeReview < Sinatra::Base
     end
   end
 
-  get %r"^/(\w+/\w+)/(\w+)/?$" do |repository_name, commit_hash|
-    @repository = Repository.where(:name => repository_name.downcase).first
+  get "/:name_part1/:name_part2/:commit_hash" do |part1, part2, commit_hash|
+    @repository = Repository.by_name(part1, part2).first
     halt 404 unless @repository
 
     @commit = @repository.commits.where(:commit_hash => commit_hash).first
@@ -60,8 +60,8 @@ class SimpleCodeReview < Sinatra::Base
     erb :commit
   end
 
-  get %r"^/(\w+/\w+)/?$" do |repository_name|
-    @repository = Repository.where(:name => repository_name.downcase).first
+  get "/:name_part1/:name_part2" do |part1, part2|
+    @repository = Repository.by_name(part1, part2).first
     halt 404 unless @repository
 
     @repository.update_repository!
