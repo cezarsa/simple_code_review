@@ -1,6 +1,16 @@
 module UserHelpers
   def current_user
-    @current_user = session[:user_id] && (@current_user || User.find(session[:user_id]))
+    user_id = session[:user_id]
+
+    return nil unless user_id
+    return @current_user if @current_user
+
+    begin
+      @current_user = User.find(user_id)
+    rescue
+      session.delete(:user_id)
+      nil
+    end
   end
 
   def current_user_id

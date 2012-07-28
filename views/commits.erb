@@ -1,7 +1,7 @@
 <ul>
     <% @commits.each do |commit| %>
         <li>
-            <a href="<%= commit_url(commit) %>"><%=commit.committer.name%> - <%=commit.message%></a>
+            <a href="<%= commit_url(commit) %>"><%=commit.committer.name%> - <%=commit.message%> - <%=commit.score%></a>
         </li>
     <% end %>
 </ul>

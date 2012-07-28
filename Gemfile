@@ -8,3 +8,7 @@ gem 'grit'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'coderay'
+
+group :development do
+  gem 'debugger'
+end

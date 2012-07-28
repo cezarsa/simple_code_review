@@ -4,6 +4,7 @@ class User
   field :username, type: String
   field :name, type: String
   field :email, type: String
+  field :alternative_emails, type: Array
   field :github_token, type: String
   field :avatar_url, type: String
 
@@ -13,10 +14,11 @@ class User
   validates_presence_of :username, :email
   validates_uniqueness_of :username, :email
 
-  def self.create_or_update_user(github_data)
+  def self.create_or_update_user(github_data, emails)
     basic_info = github_data[:info]
     extra_info = github_data[:extra][:raw_info]
     credentials = github_data[:credentials]
+    alternative_emails = emails
 
     user = User.where(:email => basic_info[:email]).first
     unless user

@@ -1,54 +1,3 @@
-class Review
-  include Mongoid::Document
-
-  REVIEW_TYPES = {
-    :positive => 'LGTM',
-    :neutral => 'meh',
-    :negative => 'Bad, very bad...'
-  }
-
-  field :type, type: Symbol
-  field :message, type: String
-
-  embedded_in :commit
-  belongs_to :user
-
-  validates_inclusion_of :type, :in => REVIEW_TYPES.keys
-
-  def friendly_type
-    REVIEW_TYPES[type]
-  end
-
-end
-
-class Commit
-  include Mongoid::Document
-
-  field :commit_hash, type: String
-
-  embedded_in :repository
-  embeds_many :reviews
-
-  validates_uniqueness_of :commit_hash
-
-  def commit_data
-    @commit_data = @commit_data || repository.git_repo.commit(commit_hash)
-  end
-
-  def message
-    commit_data.message
-  end
-
-  def committer
-    commit_data.committer
-  end
-
-  def diffs
-    commit_data.diffs
-  end
-
-end
-
 class Repository
   include Mongoid::Document
 
@@ -87,6 +36,10 @@ class Repository
     save!
   end
 
+  def min_score
+    2
+  end
+
 protected
 
   def repo_path
@@ -101,7 +54,7 @@ protected
     return if self.name
     return if self.url.empty?
 
-    groups = url.match(%r{^(?:git|https?)(?:://|@).*?(?:/|:)(.*?)\..*})
+    groups = url.match(%r{^(?:git|https?)(?:://|@).*?(?:/|:)(.*?)(?:\..*|)?$})
     if groups
       self.name = groups[1]
     else

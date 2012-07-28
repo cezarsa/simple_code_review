@@ -8,7 +8,7 @@ class SimpleCodeReview < Sinatra::Base
   use Rack::Session::Cookie
 
   configure do
-    Mongoid.load!("models/mongoid.yml")
+    Mongoid.load!("config/mongoid.yml")
   end
 
   configure :development do

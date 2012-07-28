@@ -1,0 +1,22 @@
+development:
+  sessions:
+    default:
+      hosts:
+        - localhost:27017
+      database: simplecodereview_development
+
+test:
+  sessions:
+    default:
+      hosts:
+        - localhost:27017
+      database: simplecodereview_test
+
+production:
+  sessions:
+    default:
+      hosts:
+        - <%= ENV['MONGOID_HOST'] %>
+      username: <%= ENV['MONGOID_USERNAME'] %>
+      password: <%= ENV['MONGOID_PASSWORD'] %>
+      database: <%= ENV['MONGOID_DATABASE'] %>
