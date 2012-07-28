@@ -5,8 +5,8 @@ class Repository
   field :url, type: String
 
   embeds_many :commits
-  belongs_to :owner, :class_name => 'User'
-  has_and_belongs_to_many :reviewers, :class_name => 'User'
+  belongs_to :owner, :inverse_of => :owned_repositories, :class_name => 'User'
+  has_and_belongs_to_many :reviewers, :inverse_of => :reviewer_repositories, :class_name => 'User'
 
   validates_presence_of :name, :url, :owner
   validates_uniqueness_of :name
