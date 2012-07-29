@@ -3,6 +3,8 @@ class Repository
 
   field :name, type: String
   field :url, type: String
+  field :min_score, type: Integer, default: 2
+  field :cut_date, type: DateTime
 
   embeds_many :commits
   belongs_to :owner, :inverse_of => :owned_repositories, :class_name => 'User'
@@ -38,8 +40,23 @@ class Repository
     save!
   end
 
-  def min_score
-    2
+  @@commits_filters = {
+    :me => ->(c, u) { u && u.alternative_emails.include?(c.committer.email) },
+    :notme =>  ->(c, u) { u && !u.alternative_emails.include?(c.committer.email) },
+    :bad => ->(c, u) { c.score < 0 },
+    :good => ->(c, u) { c.score >= min_score },
+    :pending => ->(c, u) { c.score >= 0 and c.score < min_score }
+  }
+
+  def filter_commits(filters, user)
+    commits.to_a.select do |commit|
+      next false if cut_date && commit.commit_data.date < cut_date
+      next true unless filters
+      filters.all? do |filter|
+        filter_func = @@commits_filters[filter.to_sym]
+        filter_func ? instance_exec(commit, user, &filter_func) : true
+      end
+    end
   end
 
 protected

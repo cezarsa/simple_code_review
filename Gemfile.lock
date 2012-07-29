@@ -8,9 +8,6 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     backports (2.6.2)
-    bson (1.6.4)
-    bson_ext (1.6.4)
-      bson (~> 1.6.4)
     builder (3.0.0)
     coderay (1.0.7)
     columnize (0.3.6)
@@ -83,7 +80,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bson_ext
   coderay
   debugger
   grit

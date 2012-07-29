@@ -1,0 +1,19 @@
+<%= erb :_form_errors %>
+
+<div class="newrepo-box">
+    <h2>new repository</h2>
+
+    <form action="/repository/update" method="post">
+        <% unless @repository.new_record? %>
+            <input type="hidden" name="_method" value="put" />
+        <% end %>
+        <input type="hidden" name="id" value="<%= @repository.id %>" />
+        <label>git repository address</label>
+        <input type="text" name="url" value="<%= params[:url] || @repository.url %>" />
+        <label>minimum score</label>
+        <input type="text" name="min_score" value="<%= params[:min_score] || @repository.min_score %>" />
+        <label>cut date</label>
+        <input type="text" name="cut_date" value="<%= params[:cut_date] || @repository.cut_date || Date.today %>" />
+        <input type="submit" value="finish repository creation" />
+    </form>
+</div>

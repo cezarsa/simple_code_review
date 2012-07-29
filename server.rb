@@ -6,6 +6,7 @@ end
 
 class SimpleCodeReview < Sinatra::Base
   use Rack::Session::Cookie
+  use Rack::MethodOverride
 
   configure do
     Mongoid.load!("config/mongoid.yml")
@@ -14,6 +15,8 @@ class SimpleCodeReview < Sinatra::Base
   configure :development do
     register Sinatra::Reloader
     also_reload './models/*'
+    also_reload './helpers/*'
+    also_reload './apps/*'
   end
 
   use AuthApp
@@ -21,15 +24,51 @@ class SimpleCodeReview < Sinatra::Base
   helpers UrlHelpers
   helpers TemplateHelpers
 
-  post "/repositories" do
+  get "/repository/new" do
     require_login!
 
-    repo = Repository.new(:url => params[:url].downcase, :owner => current_user_id)
-    if repo.save
+    @repository = Repository.new
+
+    erb :edit_repository
+  end
+
+  get "/:name_part1/:name_part2/config" do |part1, part2|
+    @repository = Repository.by_name(part1, part2).first
+    halt 404 unless @repository
+
+    erb :edit_repository
+  end
+
+  post "/repository/update" do
+    require_login!
+
+    @repository = Repository.new(:url => params[:url].downcase,
+                                 :owner => current_user_id,
+                                 :min_score => params[:min_score],
+                                 :cut_date => params[:cut_date])
+
+    if @repository.save
+      @repository.update_repository!
       redirect '/'
     else
-      @errors = repo.errors
-      repositories_list
+      @errors = @repository.errors
+      erb :edit_repository
+    end
+  end
+
+  put "/repository/update" do
+    require_login!
+
+    halt 403 unless params[:id]
+    @repository = Repository.find(params[:id])
+    halt 403 unless current_user_id == @repository.owner.id
+
+    if @repository.update_attributes(:min_score => params[:min_score],
+                                    :cut_date => params[:cut_date])
+      redirect '/'
+    else
+      @errors = @repository.errors
+      erb :edit_repository
     end
   end
 
@@ -65,7 +104,9 @@ class SimpleCodeReview < Sinatra::Base
     halt 404 unless @repository
 
     @repository.update_repository!
-    @commits = @repository.commits.all
+
+    filters = params[:filter].split(',') rescue nil
+    @commits = @repository.filter_commits(filters, current_user)
 
     erb :commits
   end

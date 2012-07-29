@@ -1,25 +1,9 @@
 
-<% if logged_in? %>
-    <img src="<%= current_user.avatar_url %>">
-    <span><%= current_user.name %> (<%= current_user.username %>)</span>
-    <a href='/logout'>Log Out</a>
-<% else %>
-    <a href='/auth/github'>Sign in with GitHub</a>
-<% end %>
-
 <ul>
 <% @repositories.each do |repo| %>
     <li>
         <a href="<%= repository_url(repo) %>"><%= repo.name %> - <%= repo.url %></a>
+        <a href="<%= "#{repository_url(repo)}/config" %>">config</a>
     </li>
 <% end %>
 </ul>
-
-<% if logged_in? %>
-    <%= erb :_form_errors %>
-
-    <form action="/repositories" method="post">
-        Url: <input type="text" name="url" value="<%= params[:url] %>" />
-        <input type="submit" value="Add" />
-    </form>
-<% end %>

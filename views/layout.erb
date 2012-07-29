@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Simple Code Review</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/css/layout.css">
+    <link rel="stylesheet" type="text/css" href="/css/new_repository.css">
+</head>
+<body>
+
+<header>
+    <div class="max-content">
+        <a href="/" class="logo"></a>
+        <ul>
+            <% if logged_in? %>
+                <li>
+                    <a href="/me">
+                        <img src="<%= current_user.avatar_url %>" title="">
+                        <%= current_user.username %>
+                    </a>
+                </li>
+            <% end %>
+            <li>
+                <a href="/">home</a>
+            </li>
+            <% if logged_in? %>
+                <li>
+                    <a href="/repository/new">new repository</a>
+                </li>
+                <li>
+                    <a href="/mybad">my bad</a>
+                </li>
+            <% end %>
+            <li>
+                <% if logged_in? %>
+                    
+                    <a href='/logout'>log out</a>
+                <% else %>
+                    <a href='/auth/github'>log in</a>
+                <% end %>
+            </li>
+        </ul>
+    </div>
+</header>
+
+<div class="max-content">
+    <%= yield %>
+</div>
+
+</body>
+</html>
