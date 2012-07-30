@@ -8,6 +8,7 @@ class User
   field :github_token, type: String
   field :avatar_url, type: String
 
+  has_many :solved_commits, :class_name => 'Commit'
   has_many :owned_repositories, :inverse_of => :owner, :class_name => 'Repository'
   has_and_belongs_to_many :reviewer_repositories, :inverse_of => :reviewers, :class_name => 'Repository'
 

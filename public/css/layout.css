@@ -25,7 +25,8 @@ header .logo {
     height: 49px;
     background-image: url(../img/logo.png);
     margin: 15px 0 0 0;
-    display: inline-block;
+    display: block;
+    float: left;
 }
 
 header ul {
@@ -36,7 +37,7 @@ header ul {
 
 header li {
     display: inline-block;
-    margin-left: 15px;
+    margin-left: 20px;
 }
 
 header li img {

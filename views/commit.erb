@@ -10,9 +10,11 @@
 <ul>
 <% @commit.reviews.each do |review| %>
     <li>
-        <h4><%= review.user.name %></h3>
-        <span><%= review.friendly_type %>:</span>
-        <span><%= review.message %></span>
+        <h3><%= review.user.name %></h3>
+        <span><%= review.friendly_type %></span>
+        <% if review.message && !review.message.empty? %>
+            <span>- <%= review.message %></span>
+        <% end %>
     </li>
 <% end %>
 </ul>
@@ -21,12 +23,14 @@
     <%= erb :_form_errors %>
 
     <form action="<%= commit_url(@commit) %>/review" method="post">
-        <select name="type">
-            <% Review::REVIEW_TYPES.each do |k, v| %>
-                <option value="<%= k %>"><%= v %></option>
-            <% end %>
-        </select>
         <textarea name="message"></textarea>
-        <input type="submit" value="Add" />
+        <button type="submit" name="type" value="neutral">comment</button>
+        <button type="submit" name="type" value="positive">+1</button>
+        <button type="submit" name="type" value="negative">-1</button>
     </form>
+    <% unless @commit.user_responsible %>
+        <form action="<%= commit_url(@commit) %>/fix" method="post">
+            <button type="submit">Mark as fixed</button>
+        </form>
+    <% end %>
 <% end %>

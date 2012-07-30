@@ -13,6 +13,9 @@ class SimpleCodeReview < Sinatra::Base
   end
 
   configure :development do
+    Mongoid.logger.level = Logger::DEBUG
+    Moped.logger.level = Logger::DEBUG
+
     register Sinatra::Reloader
     also_reload './models/*'
     also_reload './helpers/*'
@@ -28,13 +31,6 @@ class SimpleCodeReview < Sinatra::Base
     require_login!
 
     @repository = Repository.new
-
-    erb :edit_repository
-  end
-
-  get "/:name_part1/:name_part2/config" do |part1, part2|
-    @repository = Repository.by_name(part1, part2).first
-    halt 404 unless @repository
 
     erb :edit_repository
   end
@@ -65,6 +61,7 @@ class SimpleCodeReview < Sinatra::Base
 
     if @repository.update_attributes(:min_score => params[:min_score],
                                     :cut_date => params[:cut_date])
+      @repository.update_commits!
       redirect '/'
     else
       @errors = @repository.errors
@@ -72,19 +69,47 @@ class SimpleCodeReview < Sinatra::Base
     end
   end
 
+  get "/:name_part1/:name_part2/config" do |part1, part2|
+    @repository = Repository.by_name(part1, part2).first
+    halt 404 unless @repository
+
+    erb :edit_repository
+  end
+
   post "/:name_part1/:name_part2/:commit_hash/review" do |part1, part2, commit_hash|
+    require_login!
+
     @repository = Repository.by_name(part1, part2).first
     halt 404 unless @repository
 
     @commit = @repository.commits.where(:commit_hash => commit_hash).first
     halt 404 unless @commit
 
-    @commit.reviews << Review.new(:user => current_user_id, :message => params[:message], :type => params[:type])
+    @commit.add_review(Review.new(:user => current_user_id, :message => params[:message], :type => params[:type]))
 
-    if @repository.save
+    if @commit.save
       redirect commit_url(@commit)
     else
-      @errors = repo.errors
+      @errors = @commit.errors
+      erb :commit
+    end
+  end
+
+  post "/:name_part1/:name_part2/:commit_hash/fix" do |part1, part2, commit_hash|
+    require_login!
+
+    @repository = Repository.by_name(part1, part2).first
+    halt 404 unless @repository
+
+    @commit = @repository.commits.where(:commit_hash => commit_hash).first
+    halt 404 unless @commit
+
+    @commit.fix(current_user)
+
+    if @commit.save
+      redirect commit_url(@commit)
+    else
+      @errors = @commit.errors
       erb :commit
     end
   end
@@ -99,14 +124,29 @@ class SimpleCodeReview < Sinatra::Base
     erb :commit
   end
 
+  get "/mybad" do
+    require_login!
+
+    p Commit.mybad(current_user).distinct(:repository)
+    @commits = Commit.mybad(current_user)
+
+    erb :commits
+  end
+
+  get "/pending" do
+    require_login!
+
+    @commits = Commit.pending_for_me(current_user)
+
+    erb :commits
+  end
+
   get "/:name_part1/:name_part2" do |part1, part2|
     @repository = Repository.by_name(part1, part2).first
     halt 404 unless @repository
 
     @repository.update_repository!
-
-    filters = params[:filter].split(',') rescue nil
-    @commits = @repository.filter_commits(filters, current_user)
+    @commits = @repository.commits.valid
 
     erb :commits
   end

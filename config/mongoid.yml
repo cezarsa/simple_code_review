@@ -4,6 +4,8 @@ development:
       hosts:
         - localhost:27017
       database: simplecodereview_development
+  options:
+    identity_map_enabled: true
 
 test:
   sessions:
@@ -11,6 +13,8 @@ test:
       hosts:
         - localhost:27017
       database: simplecodereview_test
+  options:
+    identity_map_enabled: true
 
 production:
   sessions:
@@ -20,3 +24,5 @@ production:
       username: <%= ENV['MONGOID_USERNAME'] %>
       password: <%= ENV['MONGOID_PASSWORD'] %>
       database: <%= ENV['MONGOID_DATABASE'] %>
+  options:
+    identity_map_enabled: true

@@ -2,11 +2,33 @@ class Commit
   include Mongoid::Document
 
   field :commit_hash, type: String
+  field :committer_email, type: String
+  field :timestamp, type: DateTime
+  field :score, type: Integer, default: 0
 
-  embedded_in :repository
+  field :valid, type: Boolean
+  field :status, type: Symbol, default: :pending
+
+  belongs_to :user_responsible, :class_name => 'User'
+  belongs_to :repository
   embeds_many :reviews
 
   validates_uniqueness_of :commit_hash
+
+  scope :valid, -> { where(valid: true) }
+  scope :from_user, ->(user) { where(:committer_email.in => user.alternative_emails) }
+
+  scope :bad, -> { where(:status => :bad, :user_responsible => nil) }
+  scope :pending, -> { where(:status => :pending, :user_responsible => nil) }
+  scope :good, -> { where(:status => :good, :user_responsible => nil) }
+
+  scope :pending_for_me, ->(user) do
+    valid.pending.not.from_user(user)
+  end
+
+  scope :mybad, ->(user) do
+    valid.bad.from_user(user)
+  end
 
   def commit_data
     @commit_data = @commit_data || repository.git_repo.commit(commit_hash)
@@ -24,8 +46,33 @@ class Commit
     commit_data.diffs
   end
 
-  def score
-    reviews.where(type: :positive).count - reviews.where(type: :negative).count
+  def fix(user)
+    reviews << Review.new(:user => user.id, :message => "Marked as fixed", :type => :neutral)
+    self.user_responsible = user
+  end
+
+  def add_review(review)
+    inc =
+      case review.type
+      when :positive
+        1
+      when :negative
+        -1
+      else
+        0
+      end
+
+    self.score += inc
+    self.status = 
+      if self.score < 0
+        :bad
+      elsif score < repository.min_score
+        :pending
+      else
+        :good
+      end
+
+    reviews << review
   end
 
 end
