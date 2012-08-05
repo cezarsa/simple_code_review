@@ -13,7 +13,7 @@
         <h3><%= review.user.name %></h3>
         <span><%= review.friendly_type %></span>
         <% if review.message && !review.message.empty? %>
-            <span>- <%= review.message %></span>
+            <span>- <%= h review.message %></span>
         <% end %>
     </li>
 <% end %>
