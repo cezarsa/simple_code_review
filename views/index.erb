@@ -1,9 +1,21 @@
-
-<ul>
-<% @repositories.each do |repo| %>
-    <li>
-        <a href="<%= repository_url(repo) %>"><%= repo.name %> - <%= repo.url %></a>
-        <a href="<%= "#{repository_url(repo)}/config" %>">config</a>
-    </li>
+<div class="row">
+    <% @repositories.each_with_index do |repo, index| %>
+    <% if index > 0 and index % 2 == 0 %>
+        <div class="row">
+    <% end %>
+    <div class="six columns">
+        <div class="panel radius">
+            <a href="<%= repository_url(repo) %>">
+                <h5><%= repo.name %></h5>
+                <p><a href="<%= repository_url(repo) %>"><%= repo.url %></p>
+            </a>
+            <p><a href="<%= "#{repository_url(repo)}/config" %>">config</a></p>
+        </div>
+    </div>
+    <% if index > 0 and index % 2 != 0 %>
+        </div>
+    <% end %>
+    <% end %>
+<% if @repositories.length % 2 != 0 %>
+    </div>
 <% end %>
-</ul>

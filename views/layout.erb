@@ -3,52 +3,70 @@
 <html>
 <head>
     <title>Simple Code Review</title>
-
-    <link rel="stylesheet" type="text/css" href="/css/reset.css">
-    <link rel="stylesheet" type="text/css" href="/css/layout.css">
-    <link rel="stylesheet" type="text/css" href="/css/new_repository.css">
+    <link rel="stylesheet" type="text/css" href="/css/foundation.css">
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
 </head>
 <body>
 
-<header>
-    <div class="max-content">
-        <a href="/" class="logo"></a>
+<nav class="top-bar">
+    <div class="row">
         <ul>
-            <% if logged_in? %>
-                <li>
-                    <a href="/me">
-                        <img src="<%= current_user.avatar_url %>" title="">
-                        <%= current_user.username %>
-                    </a>
-                </li>
-            <% end %>
-            <li>
-                <a href="/">home</a>
-            </li>
-            <% if logged_in? %>
-                <li>
-                    <a href="/repository/new">new repository</a>
-                </li>
-                <li>
-                    <a href="/pending">pending review</a>
-                </li>
-                <li>
-                    <a href="/mybad">my bad</a>
-                </li>
-            <% end %>
-            <li>
-                <% if logged_in? %>
-                    
-                    <a href='/logout'>log out</a>
-                <% else %>
-                    <a href='/auth/github'>log in</a>
-                <% end %>
+            <li class="name">
+                <h1>
+                    <a href="/">Simple Code Review</a>
+                </h1>
             </li>
         </ul>
-    </div>
-</header>
 
-<div class="max-content">
+        <section>
+            <ul class="left">
+                <li class="divider"></li>
+                <% if logged_in? %>
+                    <li>
+                        <a href="/repository/new">new repository</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="/pending">pending review</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="/mybad">my bad</a>
+                    </li>
+                <% else %>
+                    <li>
+                        <a href='/auth/github'>log in</a>
+                    </li>
+                <% end %>
+                <li class="divider"></li>
+            </ul>
+
+            <% if logged_in? %>
+            <ul class="right">
+                <li class="divider"></li>
+                <li class="has-dropdown menu-user">
+                    <a href="#">
+                        <img src="<%= current_user.avatar_url %>" alt="<%= current_user.name %>" width="32" height="32" class="avatar">
+                        <%= current_user.username %>
+                    </a>
+                    <ul class="dropdown">
+                        <li>
+                            <a href="/me">Profile</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/logout">Logout</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="divider"></li>
+            </ul>
+            <% end %>
+        </section>
+    </div>
+</nav>
+
+<div class="row">
     <%= yield %>
 </div>
 

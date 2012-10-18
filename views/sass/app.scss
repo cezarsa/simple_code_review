@@ -1,0 +1,16 @@
+@import "compass/css3";
+
+.menu-user {
+    .avatar {
+        float: left;
+        margin: 6px 6px 0 0;
+        @include border-radius(20px);
+    }
+    .dropdown {
+        width: 156px;
+    }
+}
+
+.top-bar ul .name h1 { line-height: 45px; margin: 0; }
+.top-bar ul .name h1 a { font-weight: bold; padding: 0 22.5px; font-size: 17px !important; }
+.top-bar ul .name img { margin-top: -5px; vertical-align: middle; }
