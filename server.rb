@@ -70,6 +70,7 @@ class SimpleCodeReview < Sinatra::Base
   end
 
   get "/:name_part1/:name_part2/config" do |part1, part2|
+    require_login!
     @repository = Repository.by_name(part1, part2).first
     halt 404 unless @repository
 

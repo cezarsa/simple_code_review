@@ -19,9 +19,10 @@
         </ul>
 
         <section>
+
+            <% if logged_in? %>
             <ul class="left">
                 <li class="divider"></li>
-                <% if logged_in? %>
                     <li>
                         <a href="/repository/new">new repository</a>
                     </li>
@@ -33,17 +34,13 @@
                     <li>
                         <a href="/mybad">my bad</a>
                     </li>
-                <% else %>
-                    <li>
-                        <a href='/auth/github'>log in</a>
-                    </li>
-                <% end %>
                 <li class="divider"></li>
             </ul>
+            <% end %>
 
-            <% if logged_in? %>
             <ul class="right">
                 <li class="divider"></li>
+                <% if logged_in? %>
                 <li class="has-dropdown menu-user">
                     <a href="#">
                         <img src="<%= current_user.avatar_url %>" alt="<%= current_user.name %>" width="32" height="32" class="avatar">
@@ -59,9 +56,13 @@
                         </li>
                     </ul>
                 </li>
+                <% else %>
+                    <li>
+                        <a href='/auth/github'>log in</a>
+                    </li>
+                <% end %>
                 <li class="divider"></li>
             </ul>
-            <% end %>
         </section>
     </div>
 </nav>
