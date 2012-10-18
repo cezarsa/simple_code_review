@@ -6,11 +6,16 @@
         <div class="six columns">
             <div class="panel radius">
                 <a href="<%= repository_url(repo) %>">
-                    <h5><%= repo.name %></h5>
-                    <p><a href="<%= repository_url(repo) %>"><%= repo.url %></p>
+                    <h5>
+                        <%= repo.name %>
+                        <p><%= repo.url %></p>
+                    </h5>
                 </a>
                 <% if logged_in? %>
-                <p><a href="<%= "#{repository_url(repo)}/config" %>">config</a></p>
+                <p>
+                    <a href="<%= "#{repository_url(repo)}/config" %>" class="button radius tiny btn-edit secondary">edit</a>
+                    <a href="<%= repository_url(repo) %>" class="button radius tiny btn-edit secondary">view</a>
+                </p>
                 <% end %>
             </div>
         </div>
