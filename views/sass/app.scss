@@ -3,11 +3,14 @@
 .menu-user {
     .avatar {
         float: left;
-        margin: 6px 6px 0 0;
-        @include border-radius(20px);
+        margin: 5px 5px 0 0;
+        width: 32px;
+        height: 32px;
+        @include border-radius(32px);
+        vertical-align: middle;
     }
     .dropdown {
-        width: 156px;
+        width: 100%;
     }
 }
 
