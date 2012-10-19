@@ -1,36 +1,40 @@
-
-<% @commit.diffs.each do |diff| %>
-<h2><%= diff.a_path %></h2>
-
-<div>
-    <%= CodeRay.scan(diff.diff, :diff).html(wrap: :div, line_numbers: :inline) %>
-</div>
-<% end %>
-
-<ul>
-<% @commit.reviews.each do |review| %>
-    <li>
-        <h3><%= review.user.name %></h3>
-        <span><%= review.friendly_type %></span>
-        <% if review.message && !review.message.empty? %>
-            <span>- <%= h review.message %></span>
+<div class="row">
+    <div class="columns twelve">
+        <% @commit.diffs.each do |diff| %>
+        <h3><%= diff.a_path %></h3>
+        <hr>
+        <div class="panel radius">
+            <%= CodeRay.scan(diff.diff, :diff).html(wrap: :div, line_numbers: :inline) %>
+        </div>
         <% end %>
-    </li>
-<% end %>
-</ul>
 
-<% if logged_in? %>
-    <%= erb :_form_errors %>
+        <ul>
+        <% @commit.reviews.each do |review| %>
+            <li>
+                <h3><%= review.user.name %></h3>
+                <span><%= review.friendly_type %></span>
+                <% if review.message && !review.message.empty? %>
+                    <span>- <%= h review.message %></span>
+                <% end %>
+            </li>
+        <% end %>
+        </ul>
 
-    <form action="<%= commit_url(@commit) %>/review" method="post">
-        <textarea name="message"></textarea>
-        <button type="submit" name="type" value="neutral">comment</button>
-        <button type="submit" name="type" value="positive">+1</button>
-        <button type="submit" name="type" value="negative">-1</button>
-    </form>
-    <% unless @commit.user_responsible %>
-        <form action="<%= commit_url(@commit) %>/fix" method="post">
-            <button type="submit">Mark as fixed</button>
-        </form>
-    <% end %>
-<% end %>
+        <% if logged_in? %>
+            <hr>
+            <%= erb :_form_errors %>
+
+            <form action="<%= commit_url(@commit) %>/review" method="post">
+                <textarea name="message"></textarea>
+                <button type="submit" name="type" value="neutral">comment</button>
+                <button type="submit" name="type" value="positive">+1</button>
+                <button type="submit" name="type" value="negative">-1</button>
+            </form>
+            <% unless @commit.user_responsible %>
+                <form action="<%= commit_url(@commit) %>/fix" method="post">
+                    <button type="submit">Mark as fixed</button>
+                </form>
+            <% end %>
+        <% end %>
+    </div>
+</div>

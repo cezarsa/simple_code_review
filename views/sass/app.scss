@@ -21,3 +21,31 @@
 .top-bar ul .name h1 { line-height: 45px; margin: 0; }
 .top-bar ul .name h1 a { font-weight: bold; padding: 0 22.5px; font-size: 17px !important; }
 .top-bar ul .name img { margin-top: -5px; vertical-align: middle; }
+
+pre {
+    font-family: 'Monaco', fixed;
+    strong {
+        font-weight: normal;
+        a {
+            color: #333;
+        }
+    }
+    .line-numbers {
+        margin: 0 24px 0;
+        display: inline-block;
+    }
+    .line {
+        display: inline-block;
+        width: 95%;
+        &.delete {
+            background-color: rgba(red, .2);
+        }
+        &.insert {
+            background-color: rgba(green, .2);
+        }
+        &.head, &.change {
+            font-weight: 900;
+            color: #333;
+        }
+    }
+}
