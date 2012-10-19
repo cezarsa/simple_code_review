@@ -3,7 +3,7 @@
 <div class="row">
     <div class="twelve columns">
         <header>
-            <h2>New repository</h2>
+            <h3><% if @repository.new_record? %>New<% else %>Edit<% end %> repository<hr></h3>
         </header>
     </div>
 </div>
@@ -14,14 +14,33 @@
     <% end %>
     <input type="hidden" name="id" value="<%= @repository.id %>" />
     <div class="row">
-        <div class="twelve columns">
-            <label>git repository address</label>
+        <div class="two columns">
+            <label class="right">git repository address</label>
+        </div>
+        <div class="ten columns">
             <input type="text" name="url" value="<%= params[:url] || @repository.url %>" placeholder="e.g. git://github.com/daviferreira/simple_code_review.git" class="eight">
-            <label>minimum score</label>
-            <input type="text" name="min_score" value="<%= params[:min_score] || @repository.min_score %>" />
-            <label>cut date</label>
-            <input type="text" name="cut_date" value="<%= params[:cut_date] || @repository.cut_date || Date.today %>" />
-            <input type="submit" value="finish repository creation" />  
+        </div>
+    </div>
+    <div class="row">
+        <div class="two columns">
+            <label class="right inline">minimum score</label>
+        </div>
+        <div class="ten columns">
+            <input type="text" name="min_score" value="<%= params[:min_score] || @repository.min_score %>" class="two">
+        </div>
+     </div>
+    <div class="row">
+        <div class="two columns">
+            <label class="right inline">cut date</label>
+        </div>
+        <div class="ten columns">
+            <input type="text" name="cut_date" value="<%= params[:cut_date] || @repository.cut_date || Date.today %>" class="six">
+        </div>
+    </div>
+    <div class="row">
+        <hr>
+        <div class="ten columns offset-by-two">
+            <input type="submit" value="<% if @repository.new_record? %>finish repository creation<% else %>edit repository<% end %>" class="button" />  
         </div>
     </div>
 </form>
