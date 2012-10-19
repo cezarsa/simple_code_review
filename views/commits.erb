@@ -1,7 +1,28 @@
-<ul>
-    <% @commits.each do |commit| %>
-        <li>
-            <a href="<%= commit_url(commit) %>"><%=commit.committer.name%> - <%=commit.message%> - <%=commit.score%></a>
-        </li>
-    <% end %>
-</ul>
+<div class="row">
+    <div class="twelve column">
+        <table>
+            <thead>
+                <tr>
+                    <th>Author</th>
+                    <th>Commit</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% @commits.each do |commit| %>
+                <tr>
+                    <td>
+                        <span class="round secondary label"><%=commit.committer.name%></span>
+                    </td>
+                    <td>
+                        <a href="<%= commit_url(commit) %>"><%=commit.message%></a>
+                    </td>
+                    <td>
+                        <span class="round <% if commit.score < 0 %>alert<% elsif commit.score > 0 %>success<% end %> label"><%=commit.score%></span>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>
