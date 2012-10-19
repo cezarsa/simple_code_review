@@ -23,6 +23,8 @@
 .top-bar ul .name img { margin-top: -5px; vertical-align: middle; }
 
 pre {
+    overflow-y: hidden;
+    overflow-x: auto;
     font-family: 'Monaco', fixed;
     strong {
         font-weight: normal;
@@ -36,7 +38,7 @@ pre {
     }
     .line {
         display: inline-block;
-        width: 95%;
+        width: 90%;
         &.delete {
             background-color: rgba(red, .2);
         }
