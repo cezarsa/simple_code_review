@@ -8,14 +8,21 @@
         </div>
         <% end %>
 
-        <ul>
+        <ul class="reviews">
         <% @commit.reviews.each do |review| %>
-            <li>
-                <h3><%= review.user.name %></h3>
-                <span><%= review.friendly_type %></span>
-                <% if review.message && !review.message.empty? %>
-                    <span>- <%= h review.message %></span>
-                <% end %>
+            <li class="panel radius clearfix">
+                <div class="author">
+                    <img src="<%= review.user.avatar_url %>" alt="<%= review.user.name %>" width="64" height="64" class="avatar">
+                    <%= review.user.name %>
+                </div>
+                <div class="comment">
+                    <% if review.friendly_type %>
+                        <span class="rate <%= review.type %>"><%= review.friendly_type %></span>
+                    <% end %>
+                    <% if review.message && !review.message.empty? %>
+                        <span><%= review.message %></span>
+                    <% end %>
+                </div>
             </li>
         <% end %>
         </ul>
@@ -23,13 +30,16 @@
         <% if logged_in? %>
             <hr>
             <%= erb :_form_errors %>
-
-            <form action="<%= commit_url(@commit) %>/review" method="post">
-                <textarea name="message"></textarea>
-                <button type="submit" name="type" value="neutral">comment</button>
-                <button type="submit" name="type" value="positive">+1</button>
-                <button type="submit" name="type" value="negative">-1</button>
+            <form action="<%= commit_url(@commit) %>/review" method="post" class="frm-rate">
+                <button type="submit" name="type" value="positive" class="button large success radius">+1</button>
+                <button type="submit" name="type" value="negative" class="button large alert radius">-1</button>
             </form>
+            <hr>
+            <form action="<%= commit_url(@commit) %>/review" method="post" class="frm-comment clearfix">
+                <textarea name="message" class="six" placeholder="Leave a comment!"></textarea>
+                <button type="submit" name="type" value="neutral" class="button">comment</button>
+            </form>
+            <hr>
             <% unless @commit.user_responsible %>
                 <form action="<%= commit_url(@commit) %>/fix" method="post">
                     <button type="submit">Mark as fixed</button>

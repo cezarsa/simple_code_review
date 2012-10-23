@@ -1,5 +1,16 @@
 @import "compass/css3";
 
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+* html .clearfix { zoom: 1; } /* IE6 */
+*:first-child+html .clearfix { zoom: 1; } /* IE7 */
+
 .menu-user {
     .avatar {
         float: left;
@@ -61,5 +72,83 @@ pre {
 .errors {
     ul {
         margin-bottom: 0;
+    }
+}
+
+.frm-comment {
+    textarea {
+        float: left;
+        margin: 0 12px 0 0;
+        height: 38px;
+    }
+}
+
+.frm-rate {
+    button {
+        &.large {
+            font-size: 22px;
+        }
+    }
+}
+
+.reviews {
+    .panel {
+        background-color: #ffffcc;
+    }
+}
+
+.errors {
+    ul {
+        margin-bottom: 0;
+    }
+}
+
+.frm-comment {
+    textarea {
+        float: left;
+        margin: 0 12px 0 0;
+        height: 38px;
+    }
+}
+
+.frm-rate {
+    button {
+        &.large {
+            font-size: 22px;
+        }
+    }
+}
+
+.reviews {
+    .panel {
+        background-color: rgba(#cfecff, .4);
+    }
+    .avatar {
+        @include border-radius(30px);
+    }
+    li {
+        list-style: none;
+    }
+    .author {
+        width: 80px;
+        float: left;
+        color: #666;
+        font-size: 12px;
+        margin: 0 12px 0 0;
+    }
+    .comment {
+        color: #000;
+        display: table-cell;
+        vertical-align: middle;
+    }
+    .rate {
+        font-weight: 900;
+        font-size: 32px;
+        &.positive {
+            color: green;
+        }
+        &.negative {
+            color: red;
+        }
     }
 }
