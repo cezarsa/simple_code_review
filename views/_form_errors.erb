@@ -1,9 +1,15 @@
 <% if @errors %>
-    <div class="errors">
-        <% @errors.messages.each do |field, messages| %>
-            <% messages.each do |message| %>
-                <%= field.to_s %> <%= message %>
-            <% end %>
-        <% end %>
+    <div class="row errors">
+        <div class="columns twelve">
+            <div class="alert-box alert">
+                <ul>
+                    <% @errors.messages.each do |field, messages| %>
+                        <% messages.each do |message| %>
+                            <li><%= field.to_s %> <%= message %></li>
+                        <% end %>
+                    <% end %>
+                </ul>
+            </div>
+        </div>
     </div>
 <% end %>
