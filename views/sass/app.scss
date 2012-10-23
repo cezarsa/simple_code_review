@@ -25,7 +25,9 @@
 pre {
     overflow-y: hidden;
     overflow-x: auto;
-    font-family: 'Monaco', fixed;
+    font-family: Consolas, 'Liberation Mono', Courier, monospace;;
+    font-size: 12px;
+    line-height: 16px;
     strong {
         font-weight: normal;
         a {
@@ -39,15 +41,19 @@ pre {
     .line {
         display: inline-block;
         width: 90%;
+        height: 16px;
         &.delete {
-            background-color: rgba(red, .2);
+            background-color: #ffdddd;
         }
         &.insert {
-            background-color: rgba(green, .2);
+            background-color: #ddffdd;
         }
         &.head, &.change {
-            font-weight: 900;
-            color: #333;
+            background-color: #eaf2f5;
+            color: #999;
+        }
+        &:hover {
+            background-color: #ffffcc;
         }
     }
 }
