@@ -4,7 +4,7 @@
         <h3><%= diff.a_path %></h3>
         <hr>
         <div class="panel radius">
-            <%= CodeRay.scan(diff.diff, :diff).html(wrap: :div, line_numbers: :inline) %>
+            <%= CodeRay.scan(diff.diff.force_encoding("UTF-8"), :diff).html(wrap: :div, line_numbers: :inline) %>
         </div>
         <% end %>
 
