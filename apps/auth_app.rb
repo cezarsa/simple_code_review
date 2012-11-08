@@ -1,6 +1,6 @@
 class AuthApp < Sinatra::Base
   use OmniAuth::Builder do
-    provider :github, 'c3867515da369e35bbbe', '1c30a20aedd7777d6640234799a2d4c32418eece', scope: "user"
+    provider :github, ENV['SCR_GITHUB_KEY'], ENV['SCR_GITHUB_SECRET'], scope: "user"
   end
 
   get '/auth/github/callback' do
