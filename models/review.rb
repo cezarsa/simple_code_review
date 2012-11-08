@@ -18,6 +18,10 @@ class Review
 
   validates_presence_of :message, :if => -> { type == :neutral }
 
+  scope :positive, -> { where(:type => :positive) }
+  scope :negative, -> { where(:type => :negative) }
+  scope :neutral, -> { where(:type => :neutral) }
+
   def friendly_type
     REVIEW_TYPES[type]
   end

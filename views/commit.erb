@@ -8,34 +8,74 @@
         </div>
         <% end %>
 
+        <% unless @commit.reviews.positive.empty? %>
+        <table class="reviews positive-reviews">
+            <tbody>
+                <tr>
+                    <td class="rate positive">+1</td>
+                    <td class="reviewers">
+                        <ul>
+                        <% @commit.reviews.positive.each do |review| %>
+                            <li class="author">
+                                <img src="<%= review.user.avatar_url %>" alt="<%= review.user.name %>" width="48" height="48" class="avatar">
+                                <p><%= review.user.first_name %></p>
+                            </li>
+                        <% end %>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <% end %>
+
+        <% unless @commit.reviews.negative.empty? %>
+        <table class="reviews negative-reviews">
+            <tbody>
+                <tr>
+                    <td class="rate negative">-1</td>
+                    <td class="reviewers">
+                        <ul>
+                        <% @commit.reviews.negative.each do |review| %>
+                            <li class="author">
+                                <img src="<%= review.user.avatar_url %>" alt="<%= review.user.name %>" width="48" height="48" class="avatar">
+                                <p><%= review.user.first_name %></p>
+                            </li>
+                        <% end %>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <% end %>
+
+        <% if logged_in? %>
+           <form action="<%= commit_url(@commit) %>/review" method="post" class="frm-rate">
+                <button type="submit" name="type" value="positive" class="button large success radius">+1</button>
+                <button type="submit" name="type" value="negative" class="button large alert radius">-1</button>
+            </form>
+            <hr>
+        <% end %>
+
         <ul class="reviews">
-        <% @commit.reviews.each do |review| %>
+        <% @commit.reviews.neutral.each do |review| %>
+            <% if review.message && !review.message.empty? %>
             <li class="panel radius clearfix">
                 <div class="author">
                     <img src="<%= review.user.avatar_url %>" alt="<%= review.user.name %>" width="64" height="64" class="avatar">
-                    <%= review.user.name %>
+                    <p><%= review.user.first_name %></p>
                 </div>
                 <div class="comment">
-                    <% if review.friendly_type %>
-                        <span class="rate <%= review.type %>"><%= review.friendly_type %></span>
-                    <% end %>
-                    <% if review.message && !review.message.empty? %>
-                        <span><%= review.message %></span>
-                    <% end %>
+                    <span><%= review.message %></span>
                 </div>
             </li>
+            <% end %>
         <% end %>
         </ul>
 
         <% if logged_in? %>
             <hr>
             <%= erb :_form_errors %>
-            <form action="<%= commit_url(@commit) %>/review" method="post" class="frm-rate">
-                <button type="submit" name="type" value="positive" class="button large success radius">+1</button>
-                <button type="submit" name="type" value="negative" class="button large alert radius">-1</button>
-            </form>
-            <hr>
-            <form action="<%= commit_url(@commit) %>/review" method="post" class="frm-comment clearfix">
+             <form action="<%= commit_url(@commit) %>/review" method="post" class="frm-comment clearfix">
                 <textarea name="message" class="six" placeholder="Leave a comment!"></textarea>
                 <button type="submit" name="type" value="neutral" class="button">comment</button>
             </form>

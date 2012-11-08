@@ -136,14 +136,16 @@ pre {
     .author {
         width: 80px;
         float: left;
-        color: #666;
-        font-size: 12px;
         margin: 0 12px 0 0;
+        text-align: center;
+        color: #666;
+        p {
+            margin-bottom: 0;
+            font-size: 12px;
+        }
     }
     .comment {
         color: #000;
-        display: table-cell;
-        vertical-align: middle;
     }
     .rate {
         font-weight: 900;
@@ -153,6 +155,27 @@ pre {
         }
         &.negative {
             color: red;
+        }
+    }
+}
+
+table.reviews {
+    td {
+        text-align: left;
+    }
+    .rate {
+        text-align: center;
+        width: 80px;
+        vertical-align: middle;
+        border-right: 1px solid #ccc;
+    }
+    .author {
+        margin: 12px;
+        width: 64px;
+        text-align: center;
+        p {
+            margin-bottom: 0;
+            font-size: 11px;
         }
     }
 }
