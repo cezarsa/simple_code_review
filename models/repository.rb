@@ -20,33 +20,40 @@ class Repository
   def git_repo
     return @repo if @repo
 
-    begin
-      @repo = Grit::Repo.new(repo_path)
-    rescue Grit::InvalidGitRepositoryError, Grit::NoSuchPathError
-      gritgit = Grit::Git.new(repo_path)
-      gritgit.clone({:quiet => false, :verbose => true, :branch => 'master'}, url, repo_path)
-      @repo = Grit::Repo.new(repo_path)
+    Grit::Git.with_timeout(0) do
+        begin
+          @repo = Grit::Repo.new(repo_path)
+        rescue Grit::InvalidGitRepositoryError, Grit::NoSuchPathError
+          gritgit = Grit::Git.new(repo_path)
+          gritgit.clone({:quiet => false, :verbose => true, :branch => 'master'}, url, repo_path)
+          @repo = Grit::Repo.new(repo_path)
+        end
     end
+
     @repo
   end
 
   def update_repository!
-    git_repo.git.pull
-    git_repo.log.each do |raw_commit|
-      commit = commits.where(:commit_hash => raw_commit.id).first
-      break if commit
-      commit = Commit.new(:commit_hash => raw_commit.id,
-          :committer_email => raw_commit.committer.email,
-          :timestamp => raw_commit.date)
-      commit.valid = commit.timestamp >= cut_date
-      commits << commit
+    Grit::Git.with_timeout(0) do
+        git_repo.git.pull
+        git_repo.log.each do |raw_commit|
+          commit = commits.where(:commit_hash => raw_commit.id).first
+          break if commit
+          commit = Commit.new(:commit_hash => raw_commit.id,
+              :committer_email => raw_commit.committer.email,
+              :timestamp => raw_commit.date)
+          commit.valid = commit.timestamp >= cut_date
+          commits << commit
+        end
+        save!
     end
-    save!
   end
 
   def update_commits!
-    commits.each do |commit|
-      commit.update_attributes(:valid => commit.timestamp >= cut_date)
+    Grit::Git.with_timeout(0) do
+        commits.each do |commit|
+          commit.update_attributes(:valid => commit.timestamp >= cut_date)
+        end
     end
   end
 
