@@ -42,7 +42,7 @@
             <hr>
             <% unless @commit.user_responsible %>
                 <form action="<%= commit_url(@commit) %>/fix" method="post">
-                    <button type="submit">Mark as fixed</button>
+                    <button type="submit" class="button large success radius">Mark as fixed</button>
                 </form>
             <% end %>
         <% end %>
