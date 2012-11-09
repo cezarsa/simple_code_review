@@ -1,5 +1,7 @@
 # TODO
 
+* write tests
+* implement button to update commits
 * notifications / dashboard
 * transform cut date into words (2 days, 3 months etc.)
 * new items badge (menu and listings)
