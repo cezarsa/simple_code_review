@@ -25,7 +25,7 @@ class Repository
           @repo = Grit::Repo.new(repo_path)
         rescue Grit::InvalidGitRepositoryError, Grit::NoSuchPathError
           gritgit = Grit::Git.new(repo_path)
-          gritgit.clone({:quiet => false, :verbose => true, :branch => 'master'}, url, repo_path)
+          gritgit.clone({:depth => 100, :quiet => false, :verbose => true, :branch => 'master'}, url, repo_path)
           @repo = Grit::Repo.new(repo_path)
         end
     end
