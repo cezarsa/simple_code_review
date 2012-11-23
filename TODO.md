@@ -16,3 +16,4 @@
 * delete repositories
 * profile page
 * custom login + twitter/fb/google auth
+* commits by user
