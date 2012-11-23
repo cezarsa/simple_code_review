@@ -3,7 +3,7 @@
 * write tests
 * implement button to update commits
 * better way to handle repositories with a large base of commits
-* add custom name and branch to repository creation
+* add custom name to repository creation
 * notifications / dashboard
 * transform cut date into words (2 days, 3 months etc.)
 * new items badge (menu and listings)

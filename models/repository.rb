@@ -2,6 +2,7 @@ class Repository
   include Mongoid::Document
 
   field :name, type: String
+  field :branch, type: String, default: 'master'
   field :url, type: String
   field :min_score, type: Integer, default: 2
   field :cut_date, type: DateTime
@@ -12,7 +13,7 @@ class Repository
 
   scope :by_name, ->(name_part1, name_part2) { where(name: "#{name_part1}/#{name_part2}".downcase) }
 
-  validates_presence_of :name, :url, :owner
+  validates_presence_of :name, :url, :owner, :branch
   validates_uniqueness_of :name
 
   before_validation :generate_name
@@ -25,7 +26,7 @@ class Repository
           @repo = Grit::Repo.new(repo_path)
         rescue Grit::InvalidGitRepositoryError, Grit::NoSuchPathError
           gritgit = Grit::Git.new(repo_path)
-          gritgit.clone({:depth => 100, :quiet => false, :verbose => true, :branch => 'master'}, url, repo_path)
+          gritgit.clone({:depth => 40, :quiet => false, :verbose => true, :branch => branch}, url, repo_path)
           @repo = Grit::Repo.new(repo_path)
         end
     end
@@ -35,13 +36,14 @@ class Repository
 
   def update_repository!
     Grit::Git.with_timeout(0) do
-        git_repo.git.pull
-        git_repo.log.each do |raw_commit|
-          commit = commits.where(:commit_hash => raw_commit.id).first
+        git_repo.git.pull({:branch => branch}, "origin/#{branch}")
+        git_repo.log("origin/#{branch}").each do |raw_commit|
+          commit = commits.where(:commit_hash => raw_commit.id, :branch => branch).first
           break if commit
           commit = Commit.new(:commit_hash => raw_commit.id,
-              :committer_email => raw_commit.committer.email,
-              :timestamp => raw_commit.date)
+                              :branch => branch,
+                              :committer_email => raw_commit.committer.email,
+                              :timestamp => raw_commit.date)
           commit.valid = commit.timestamp >= cut_date
           commits << commit
         end
@@ -77,6 +79,7 @@ protected
     else
       self.name = url.match(%r{^(?:git|https?)(?:://|@)(.*)})[1]
     end
+    self.name = "#{self.name}-#{self.branch}"
   end
 
 end

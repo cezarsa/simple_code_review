@@ -39,6 +39,7 @@ class SimpleCodeReview < Sinatra::Base
     require_login!
 
     @repository = Repository.new(:url => params[:url].downcase,
+                                 :branch => params[:branch].downcase,
                                  :owner => current_user_id,
                                  :min_score => params[:min_score],
                                  :cut_date => params[:cut_date])

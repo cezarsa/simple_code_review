@@ -23,6 +23,14 @@
     </div>
     <div class="row">
         <div class="two columns">
+            <label class="right">branch</label>
+        </div>
+        <div class="ten columns">
+            <input type="text" name="branch" value="<%= params[:branch] || @repository.branch %>" placeholder="e.g. master" class="four">
+        </div>
+    </div>
+    <div class="row">
+        <div class="two columns">
             <label class="right inline">minimum score</label>
         </div>
         <div class="ten columns">

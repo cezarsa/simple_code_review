@@ -2,6 +2,7 @@ class Commit
   include Mongoid::Document
 
   field :commit_hash, type: String
+  field :branch, type: String
   field :committer_email, type: String
   field :timestamp, type: DateTime
   field :score, type: Integer, default: 0
@@ -13,7 +14,7 @@ class Commit
   belongs_to :repository
   embeds_many :reviews
 
-  validates_uniqueness_of :commit_hash
+  validates_uniqueness_of :commit_hash, :scope => :branch
 
   scope :valid, -> { where(valid: true) }
   scope :from_user, ->(user) { where(:committer_email.in => user.alternative_emails) }
