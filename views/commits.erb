@@ -16,7 +16,7 @@
                         <span class="round secondary label"><%=commit.committer.name%></span>
                     </td>
                     <td>
-                        <a href="<%= commit_url(commit) %>"><%=commit.message%></a>
+                        <a href="<%= url commit_url(commit) %>"><%=commit.message%></a>
                     </td>
                     <td>
                         <span class="round <% if commit.score < 0 %>alert<% elsif commit.score > 0 %>success<% end %> label"><%=commit.score%></span>

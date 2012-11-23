@@ -8,7 +8,7 @@
     </div>
 </div>
 
-<form action="/repository/update" method="post">
+<form action="<%= url "/repository/update" %>" method="post">
     <% unless @repository.new_record? %>
         <input type="hidden" name="_method" value="put" />
     <% end %>

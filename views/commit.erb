@@ -17,7 +17,7 @@
                         <ul>
                         <% @commit.reviews.positive.each do |review| %>
                             <li class="author">
-                                <img src="<%= review.user.avatar_url %>" alt="<%= review.user.name %>" width="48" height="48" class="avatar">
+                                <%= image_tag review.user.avatar_url, :alt => review.user.name, :width => 48, :height => 48, :class => "avatar" %>
                                 <p><%= review.user.first_name %></p>
                             </li>
                         <% end %>
@@ -37,7 +37,8 @@
                         <ul>
                         <% @commit.reviews.negative.each do |review| %>
                             <li class="author">
-                                <img src="<%= review.user.avatar_url %>" alt="<%= review.user.name %>" width="48" height="48" class="avatar">
+                                <%= image_tag review.user.avatar_url, :alt => review.user.name, :width => 48, :height => 48, :class => "avatar" %>
+                                
                                 <p><%= review.user.first_name %></p>
                             </li>
                         <% end %>
@@ -49,7 +50,7 @@
         <% end %>
 
         <% if logged_in? %>
-           <form action="<%= commit_url(@commit) %>/review" method="post" class="frm-rate">
+           <form action="<%= url "#{commit_url(@commit)}/review" %>" method="post" class="frm-rate">
                 <button type="submit" name="type" value="positive" class="button large success radius">+1</button>
                 <button type="submit" name="type" value="negative" class="button large alert radius">-1</button>
             </form>
@@ -61,7 +62,7 @@
             <% if review.message && !review.message.empty? %>
             <li class="panel radius clearfix">
                 <div class="author">
-                    <img src="<%= review.user.avatar_url %>" alt="<%= review.user.name %>" width="64" height="64" class="avatar">
+                    <%= image_tag review.user.avatar_url, :alt => review.user.name, :width => 64, :height => 64, :class => "avatar" %>
                     <p><%= review.user.first_name %></p>
                 </div>
                 <div class="comment">
@@ -75,13 +76,13 @@
         <% if logged_in? %>
             <hr>
             <%= erb :_form_errors %>
-             <form action="<%= commit_url(@commit) %>/review" method="post" class="frm-comment clearfix">
+             <form action="<%= url "#{commit_url(@commit)}/review" %>" method="post" class="frm-comment clearfix">
                 <textarea name="message" class="six" placeholder="Leave a comment!"></textarea>
                 <button type="submit" name="type" value="neutral" class="button">comment</button>
             </form>
             <hr>
             <% unless @commit.user_responsible %>
-                <form action="<%= commit_url(@commit) %>/fix" method="post">
+                <form action="<%= url "#{commit_url(@commit)}/fix" %>" method="post">
                     <button type="submit" class="button large success radius">Mark as fixed</button>
                 </form>
             <% end %>
