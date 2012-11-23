@@ -4,7 +4,11 @@
         <h3><%= diff.a_path %></h3>
         <hr>
         <div class="panel radius">
-            <%= CodeRay.scan(diff.diff.force_encoding("UTF-8"), :diff).html(wrap: :div, line_numbers: :inline) %>
+            <% if diff.a_path.match(/(\.jpg|\.png|\.gif)$/) %>
+                <%= image_tag "/img/file.png" %>
+            <% else %>
+                <%= CodeRay.scan(diff.diff.force_encoding("UTF-8"), :diff).html(wrap: :div, line_numbers: :inline) %>
+            <% end %>
         </div>
         <% end %>
 
