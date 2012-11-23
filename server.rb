@@ -91,7 +91,7 @@ class SimpleCodeReview < Sinatra::Base
     @commit.add_review(Review.new(:user => current_user_id, :message => params[:message], :type => params[:type]))
 
     if @commit.save
-      redirect url(commit_url(@commit))
+      redirect url("#{commit_url(@commit)}#reviews")
     else
       @errors = @commit.errors
       erb :commit
