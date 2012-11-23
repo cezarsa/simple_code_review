@@ -47,7 +47,7 @@ class SimpleCodeReview < Sinatra::Base
 
     if @repository.save
       @repository.update_repository!
-      redirect '/'
+      redirect url('/')
     else
       @errors = @repository.errors
       erb :edit_repository
@@ -64,7 +64,7 @@ class SimpleCodeReview < Sinatra::Base
     if @repository.update_attributes(:min_score => params[:min_score],
                                     :cut_date => params[:cut_date])
       @repository.update_commits!
-      redirect '/'
+      redirect url('/')
     else
       @errors = @repository.errors
       erb :edit_repository
@@ -91,7 +91,7 @@ class SimpleCodeReview < Sinatra::Base
     @commit.add_review(Review.new(:user => current_user_id, :message => params[:message], :type => params[:type]))
 
     if @commit.save
-      redirect commit_url(@commit)
+      redirect url(commit_url(@commit))
     else
       @errors = @commit.errors
       erb :commit
@@ -110,7 +110,7 @@ class SimpleCodeReview < Sinatra::Base
     @commit.fix(current_user)
 
     if @commit.save
-      redirect commit_url(@commit)
+      redirect url(commit_url(@commit))
     else
       @errors = @commit.errors
       erb :commit

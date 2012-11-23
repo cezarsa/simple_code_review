@@ -8,12 +8,12 @@ class AuthApp < Sinatra::Base
     user = User.create_or_update_user(request.env['omniauth.auth'], alternative_emails)
     session[:user_id] = user.id
 
-    redirect '/'
+    redirect url('/')
   end
 
   get '/logout' do
     session.delete :user_id
 
-    redirect '/'
+    redirect url('/')
   end
 end

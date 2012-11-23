@@ -13,8 +13,8 @@
                 </a>
                 <% if logged_in? %>
                 <p>
-                    <a href="<%= "#{repository_url(repo)}/config" %>" class="button radius tiny btn-edit secondary">edit</a>
-                    <a href="<%= repository_url(repo) %>" class="button radius tiny btn-edit secondary">view</a>
+                    <%= link_to "edit", "#{repository_url(repo)}/config", :class => "button radius tiny btn-edit secondary" %>
+                    <%= link_to "view", repository_url(repo), :class => "button radius tiny btn-edit secondary" %>
                 </p>
                 <% end %>
             </div>
