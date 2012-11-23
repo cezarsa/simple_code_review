@@ -10,6 +10,7 @@ class SimpleCodeReview < Sinatra::Base
 
   configure do
     Mongoid.load!("config/mongoid.yml")
+    register Sinatra::StaticAssets
   end
 
   configure :development do

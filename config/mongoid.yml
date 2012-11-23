@@ -20,9 +20,8 @@ production:
   sessions:
     default:
       hosts:
-        - <%= ENV['MONGOID_HOST'] %>
-      username: <%= ENV['MONGOID_USERNAME'] %>
-      password: <%= ENV['MONGOID_PASSWORD'] %>
-      database: <%= ENV['MONGOID_DATABASE'] %>
+        - localhost:27017
+      database: simplecodereview
   options:
     identity_map_enabled: true
+

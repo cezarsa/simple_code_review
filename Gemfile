@@ -7,6 +7,7 @@ gem 'grit', '2.5.0'
 gem 'omniauth', '1.1.1'
 gem 'omniauth-github', '1.0.3'
 gem 'coderay', '1.0.8'
+gem 'sinatra-static-assets'
 
 group :development do
   gem 'debugger'

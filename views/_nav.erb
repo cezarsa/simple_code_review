@@ -3,7 +3,7 @@
         <ul>
             <li class="name">
                 <h1>
-                    <a href="/">Simple Code Review</a>
+                    <%= link_to "Simple Code Review", "/" %>
                 </h1>
             </li>
         </ul>
@@ -12,15 +12,15 @@
             <ul class="left">
                 <li class="divider"></li>
                     <li>
-                        <a href="/repository/new">new repository</a>
+                        <%= link_to "new repository", "/repository/new" %>
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a href="/pending">pending review</a>
+                        <%= link_to "pending review", "/pending" %>
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a href="/mybad">my bad</a>
+                        <%= link_to "my bad", "/mybad" %>
                     </li>
                 <li class="divider"></li>
             </ul>
@@ -30,22 +30,22 @@
                 <% if logged_in? %>
                 <li class="has-dropdown menu-user">
                     <a href="#">
-                        <img src="<%= current_user.avatar_url %>" alt="<%= current_user.name %>" width="32" height="32" class="avatar">
+                        <%= image_tag current_user.avatar_url, :alt => current_user.name, :width => 32, :height => 32, :class => "avatar" %>
                         <%= current_user.username %>
                     </a>
                     <ul class="dropdown">
                         <li>
-                            <a href="/me">Profile</a>
+                            <%= link_to "Profile", "/me" %>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="/logout">Logout</a>
+                            <%= link_to "Logout", "/logout" %>
                         </li>
                     </ul>
                 </li>
                 <% else %>
                     <li>
-                        <a href='/auth/github'>log in</a>
+                        <%= link_to "Log in", "/auth/github" %>
                     </li>
                 <% end %>
                 <li class="divider"></li>
