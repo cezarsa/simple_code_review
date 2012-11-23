@@ -37,6 +37,16 @@ table {
 .top-bar ul .name h1 a { font-weight: bold; padding: 0 22.5px; font-size: 17px !important; }
 .top-bar ul .name img { margin-top: -5px; vertical-align: middle; }
 
+.top-bar ul li { position: relative; }
+.top-bar span.label {
+    position: absolute;
+    z-index: 30;
+    top: 6px;
+    right: -12px;
+    height: 20px;
+    padding-top: 3px;
+}
+
 pre {
     overflow-y: hidden;
     overflow-x: auto;

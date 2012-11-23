@@ -1,6 +1,8 @@
 # TODO
 
 * write tests
+* handle non-txt files (eg images)
+* activities feed
 * implement button to update commits
 * better way to handle repositories with a large base of commits
 * add custom name to repository creation

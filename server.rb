@@ -130,7 +130,6 @@ class SimpleCodeReview < Sinatra::Base
   get "/mybad" do
     require_login!
 
-    p Commit.mybad(current_user).distinct(:repository)
     @commits = Commit.mybad(current_user)
 
     erb :commits
