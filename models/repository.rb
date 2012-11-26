@@ -36,7 +36,9 @@ class Repository
 
   def update_repository!
     Grit::Git.with_timeout(0) do
-        git_repo.git.pull({:branch => branch}, "origin/#{branch}")
+        git_repo.git.checkout({}, branch)
+        git_repo.git.fetch({}, "--all")
+        git_repo.git.pull({}, "origin #{branch}")
         git_repo.log("origin/#{branch}").each do |raw_commit|
           commit = commits.where(:commit_hash => raw_commit.id, :branch => branch).first
           break if commit
