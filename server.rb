@@ -148,7 +148,7 @@ class SimpleCodeReview < Sinatra::Base
     halt 404 unless @repository
 
     @repository.update_repository!
-    @commits = @repository.commits.valid
+    @commits = @repository.commits.valid.order_by('timestamp DESC')
 
     erb :commits
   end
