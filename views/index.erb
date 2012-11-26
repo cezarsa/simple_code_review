@@ -17,6 +17,12 @@
                         <%= link_to "edit", "#{repository_url(repo)}/config", :class => "button radius tiny btn-edit secondary" %>
                         <%= link_to "view", repository_url(repo), :class => "button radius tiny btn-edit secondary" %>
                     </p>
+
+                    <form action="<%= url(repository_url(repo)) %>" method="post" class="frm-delete">  
+                        <input type="hidden" name="_method" value="delete">  
+                        <input type="submit" value="delete" class="button radius tiny alert">  
+                    </form>  
+
                     <% end %>
                 </div>
             </div>

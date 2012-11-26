@@ -6,4 +6,11 @@
             height = $(this).outerHeight();
         }
     }).height(height);
+
+    $('.frm-delete').submit(function (e) {
+        if (confirm('Are you sure?')) {
+            return true;
+        }
+        e.preventDefault();
+    });
 })(jQuery);
