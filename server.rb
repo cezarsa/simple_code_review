@@ -153,12 +153,6 @@ class SimpleCodeReview < Sinatra::Base
     erb :commits
   end
 
-  delete "/:name_part1/:name_part2" do |part1, part2|
-    repository = Repository.by_name(part1, part2).first
-    repository.delete 
-    redirect url('/')
-  end
-
   get "/" do
     repositories_list
   end
