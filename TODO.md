@@ -1,9 +1,11 @@
 # TODO
 
 * write tests
+* better way to handle repository/branch/commits relations, 
+  right now commits are being duplicated and they shouldn't
 * handle non-txt files (eg images)
 * activities feed
-* implement button to update commits
+* implement ajax/button to update commits
 * better way to handle repositories with a large base of commits
 * add custom name to repository creation
 * notifications / dashboard
