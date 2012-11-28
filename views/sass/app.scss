@@ -156,6 +156,9 @@ pre {
     }
     .comment {
         color: #000;
+        span {
+            white-space: pre-wrap;
+        }
     }
     .rate {
         font-weight: 900;

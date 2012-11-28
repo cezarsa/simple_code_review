@@ -20,3 +20,4 @@
 * custom login + twitter/fb/google auth
 * commits by user
 * my reviews
+* comments/reviews with markdown syntax enabled
