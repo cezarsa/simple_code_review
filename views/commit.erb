@@ -6,7 +6,7 @@
             <hr>
         </div>
         <% @commit.diffs.each do |diff| %>
-        <h4><%= diff.a_path %></h4>
+        <h5><%= diff.a_path %></h5>
         <hr>
         <div class="panel radius">
             <% if diff.a_path.match(/(\.jpg|\.png|\.gif)$/) %>
