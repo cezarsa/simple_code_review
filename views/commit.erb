@@ -1,7 +1,12 @@
 <div class="row">
+
     <div class="columns twelve">
+        <div class="panel">
+            <h3><%= @commit.message.force_encoding("UTF-8") %></h3>
+            <hr>
+        </div>
         <% @commit.diffs.each do |diff| %>
-        <h3><%= diff.a_path %></h3>
+        <h4><%= diff.a_path %></h4>
         <hr>
         <div class="panel radius">
             <% if diff.a_path.match(/(\.jpg|\.png|\.gif)$/) %>
