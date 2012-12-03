@@ -6,4 +6,6 @@
             height = $(this).outerHeight();
         }
     }).height(height);
+
+    $('textarea').elastic();
 })(jQuery);
