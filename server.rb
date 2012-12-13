@@ -138,6 +138,7 @@ class SimpleCodeReview < Sinatra::Base
   get "/pending" do
     require_login!
 
+    Repository.all.each(&:update_repository!)
     @commits = Commit.pending_for_me(current_user).order_by('timestamp DESC')
 
     erb :commits
