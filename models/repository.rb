@@ -6,6 +6,7 @@ class Repository
   field :url, type: String
   field :min_score, type: Integer, default: 2
   field :cut_date, type: DateTime
+  field :last_updated, type: DateTime
 
   has_many :commits
   belongs_to :owner, :inverse_of => :owned_repositories, :class_name => 'User'
@@ -34,6 +35,11 @@ class Repository
     @repo
   end
 
+  def update_if_necessary!
+    return if last_updated and last_updated + 1.minutes > DateTime.now
+    update_repository!
+  end
+
   def update_repository!
     Grit::Git.with_timeout(0) do
         git_repo.git.checkout({}, branch)
@@ -49,6 +55,7 @@ class Repository
           commit.valid = commit.timestamp >= cut_date
           commits << commit
         end
+        self.last_updated = DateTime.now
         save!
     end
   end
