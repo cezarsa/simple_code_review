@@ -35,7 +35,7 @@ GEM
     jwt (0.1.5)
       multi_json (>= 1.0)
     mime-types (1.19)
-    mongoid (3.0.11)
+    mongoid (3.0.14)
       activemodel (~> 3.1)
       moped (~> 1.1)
       origin (~> 1.0)
@@ -65,7 +65,7 @@ GEM
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
-    rake (0.9.2.2)
+    rake (10.0.3)
     redis (3.0.2)
     redis-namespace (1.2.1)
       redis (~> 3.0.0)
@@ -111,7 +111,7 @@ DEPENDENCIES
   debugger
   foreman
   grit (= 2.5.0)
-  mongoid (= 3.0.11)
+  mongoid (= 3.0.14)
   omniauth (= 1.1.1)
   omniauth-github (= 1.0.3)
   rake

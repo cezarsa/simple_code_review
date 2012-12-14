@@ -18,17 +18,22 @@ class Commit
 
   scope :valid, -> { where(valid: true) }
   scope :from_user, ->(user) { where(:committer_email.in => user.alternative_emails) }
+  scope :without_review_from, ->(user) { where("reviews.user_id".to_sym.ne => Moped::BSON::ObjectId(user.id)) }
 
   scope :bad, -> { where(:status => :bad, :user_responsible => nil) }
   scope :pending, -> { where(:status => :pending, :user_responsible => nil) }
   scope :good, -> { where(:status => :good, :user_responsible => nil) }
 
   scope :pending_for_me, ->(user) do
-    valid.pending.not.from_user(user)
+    valid.pending.without_review_from(user).not.from_user(user)
   end
 
   scope :mybad, ->(user) do
     valid.bad.from_user(user)
+  end
+
+  scope :mydiscussions, ->(user) do
+    valid.where({ :status.ne => :good, :user_responsible => nil }).not.from_user(user).without_review_from(user)
   end
 
   def commit_data

@@ -144,6 +144,14 @@ class SimpleCodeReview < Sinatra::Base
     erb :commits
   end
 
+  get "/mydiscussions" do
+    require_login!
+
+    @commits = Commit.mydiscussions(current_user).order_by('timestamp DESC')
+
+    erb :commits
+  end
+
   get "/:name_part1/:name_part2" do |part1, part2|
     @repository = Repository.by_name(part1, part2).first
     halt 404 unless @repository
