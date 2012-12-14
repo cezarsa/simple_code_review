@@ -8,6 +8,11 @@ gem 'omniauth', '1.1.1'
 gem 'omniauth-github', '1.0.3'
 gem 'coderay', '1.0.8'
 gem 'sinatra-static-assets'
+gem 'resque'
+gem 'resque-scheduler', :require => 'resque_scheduler'
+gem 'thin'
+gem 'foreman'
+gem 'rake'
 
 group :development do
   gem 'debugger'

@@ -36,7 +36,7 @@ class Repository
   end
 
   def update_if_necessary!
-    return if last_updated and last_updated + 1.minutes > DateTime.now
+    return if last_updated and last_updated + 2.minutes > DateTime.now
     update_repository!
   end
 

@@ -1,0 +1,5 @@
+update_repositories:
+  every: 30s
+  class: RepositoryUpdater
+  queue: updater
+  description: "This job makes a git pull from every repository"
