@@ -1,7 +1,7 @@
 require_relative '../acceptance_helper'
 
 describe "Home page" do
-  
+
   subject { page }
 
   before do

@@ -19,7 +19,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'rb-fsevent', '~> 0.9.1'  
+  gem 'rb-fsevent', '~> 0.9.1'
   gem 'rspec'
   gem 'simplecov'
   gem 'growl'
