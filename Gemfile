@@ -14,6 +14,16 @@ gem 'thin'
 gem 'foreman'
 gem 'rake'
 
-group :development do
+group :development, :test do
   gem 'debugger'
+end
+
+group :test do
+  gem 'rb-fsevent', '~> 0.9.1'  
+  gem 'rspec'
+  gem 'simplecov'
+  gem 'growl'
+  gem 'guard'
+  gem 'guard-rspec'
+  gem 'capybara'
 end
