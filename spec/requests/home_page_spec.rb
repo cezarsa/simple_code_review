@@ -5,15 +5,16 @@ describe "Home page" do
   subject { page }
 
   before do
-      visit "/"
+    @repo1 = FactoryGirl.create(:repository)
+    @repo2 = FactoryGirl.create(:repository)
+    visit "/"
   end
 
   it { html.should match '<title>Simple Code Review</title>' }
   it { should have_selector('h1', text: "Simple Code Review") }
   it { should have_selector('a', text: "Log in") }
-
-  it "should list the repositories" do
-  end
+  it { should have_selector('p', text: @repo1.url) }
+  it { should have_selector('p', text: @repo2.url) }
 
   describe "as a non authenticated user" do
   end

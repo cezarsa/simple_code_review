@@ -26,4 +26,6 @@ group :test do
   gem 'guard'
   gem 'guard-rspec'
   gem 'capybara'
+  gem 'factory_girl'
+  gem 'database_cleaner'
 end
