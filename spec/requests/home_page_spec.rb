@@ -10,6 +10,7 @@ describe "Home page" do
 
   it { html.should match '<title>Simple Code Review</title>' }
   it { should have_selector('h1', text: "Simple Code Review") }
+  it { should have_selector('a', text: "Log in") }
 
   it "should list the repositories" do
   end
