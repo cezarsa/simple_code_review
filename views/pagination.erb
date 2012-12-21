@@ -1,0 +1,13 @@
+<ul class="pagination">
+	<li class="arrow<%= (page == 1 ? ' unavailable' : '') %>">
+		<a href="?page=<%= (page == 1 ? 1 : page - 1) %>">&laquo;</a>
+	</li>
+	<% (from..to).each do |n| %>
+	<li<%= (page == n ? ' class="current"' : '') %>>
+		<a href="?page=<%= n %>"><%= n %></a>
+	</li>
+	<% end %>
+	<li class="arrow<%= (page == num_pages ? ' unavailable' : '') %>">
+		<a href="?page=<%= (page == num_pages ? num_pages : page + 1) %>">&raquo;</a>
+	</li>
+</ul>
