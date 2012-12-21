@@ -139,14 +139,14 @@ class SimpleCodeReview < Sinatra::Base
     require_login!
 
     Repository.all.each(&:update_if_necessary!)
-    @page = params[:page].to_i || 1
+    @page = (params[:page] || 1).to_i
     per_page = 20
 
     commits = Commit.pending_for_me(current_user)
     total = commits.count
 
-    @num_pages = (total / per_page).ceil
-    @commits = commits.order_by('timestamp DESC').limit(per_page).offset(@page * per_page)
+    @num_pages = (total / per_page.to_f).ceil
+    @commits = commits.order_by('timestamp DESC').limit(per_page).offset((@page - 1) * per_page)
 
     erb :commits
   end
