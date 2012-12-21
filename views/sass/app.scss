@@ -155,7 +155,10 @@ pre {
         }
     }
     .comment {
+        float: left;
         color: #000;
+        border-left: 1px dotted #e6e6e6;
+        padding: 0 0 0 30px;
         span {
             white-space: pre-wrap;
         }
