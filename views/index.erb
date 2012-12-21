@@ -2,31 +2,23 @@
     <section id="repositories">
         <div class="row">
             <% @repositories.each_with_index do |repo, index| %>
-                <% if index > 0 and index % 2 == 0 %>
-                    <div class="row">
-                <% end %>
-                <div class="six columns">
-                    <div class="panel radius">
+                <div class="twelve columns">
+                    <div class="panel radius repository">
+                        <% if logged_in? %>
+                        <p class="actions">
+                            <%= link_to "edit", "#{repository_url(repo)}/config", :class => "button radius tiny btn-edit secondary" %>
+                            <%= link_to "view", repository_url(repo), :class => "button radius tiny btn-edit secondary" %>
+                        </p>
+                        <% end %>
                         <a href="<%= url repository_url(repo) %>">
                             <h5>
                                 <%= repo.name %>
                                 <p><%= repo.url %></p>
                             </h5>
                         </a>
-                        <% if logged_in? %>
-                        <p>
-                            <%= link_to "edit", "#{repository_url(repo)}/config", :class => "button radius tiny btn-edit secondary" %>
-                            <%= link_to "view", repository_url(repo), :class => "button radius tiny btn-edit secondary" %>
-                        </p>
-                        <% end %>
                     </div>
                 </div>
-                <% if index > 0 and index % 2 != 0 %>
-                    </div>
-                <% end %>
             <% end %>
-        <% if @repositories.length % 2 != 0 %>
         </div>
-        <% end %>
     </section>
 <% end %>
