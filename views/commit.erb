@@ -2,8 +2,9 @@
 
     <div class="columns twelve">
         <div class="panel">
+            <% if @prev_commit %><a href="<%= url commit_url(@prev_commit) %>">prev</a><% end %>
             <h3><%= @commit.message.force_encoding("UTF-8") %></h3>
-            <hr>
+            <% if @next_commit %><a href="<%= url commit_url(@next_commit) %>">next</a><% end %>
         </div>
         <% @commit.diffs.each do |diff| %>
         <h5><%= diff.a_path %></h5>

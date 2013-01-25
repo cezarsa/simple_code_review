@@ -124,6 +124,24 @@ class SimpleCodeReview < Sinatra::Base
     @commit = @repository.commits.where(:commit_hash => commit_hash).first
     halt 404 unless @commit
 
+    @next_commit = ''
+    @prev_commit = ''
+
+    #aqui nos procuramos os commits pendentes de review para disponibilizar um proximo e anterior
+    commits = Commit.pending_for_me(current_user).order_by('timestamp DESC')
+    found = false
+    for review_commit in commits
+        if review_commit == @commit
+            found = true
+            next
+        end
+        if found
+            @next_commit = review_commit
+            break
+        end
+        @prev_commit = review_commit
+    end
+
     erb :commit
   end
 
