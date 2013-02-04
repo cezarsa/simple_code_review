@@ -204,3 +204,41 @@ table.reviews {
         }
     }
 }
+
+.nav-arrow {
+    position: fixed;
+    top: 50%;
+    margin-top: -45px;
+    height: 90px;
+    width: 45px;
+    text-align: center;
+    a {
+        padding: 28px 0 0;
+        display: block;
+        width: 45px;
+        height: 90px;
+        font-family: Georgia, Times, TimesNewRoman, serif;
+        font-size: 30px;
+        font-weight: bold;
+        background-color: #000;
+        color: #fff;
+        @include box-shadow(1px 1px 2px #ccc);
+        &:hover {
+            background-color: #2ba6cb;
+        }
+    }
+}
+
+.nav-arrow-left {
+    left: 0;
+    a {
+        @include border-radius(0 3px 3px 0);
+    }
+}
+
+.nav-arrow-right {
+    right: 0;
+    a {
+        @include border-radius(3px 0 0 3px);
+    }
+}
