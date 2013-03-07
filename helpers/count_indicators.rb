@@ -6,7 +6,7 @@ def my_bad_indicator
 end
 
 def pending_review_indicator
-    commits = Commit.pending_for_me(current_user).size
+    commits = Commit.pending_for_me(current_user).where({ :timestamp.gt => Time.now - 10.days }).size
     if commits > 0
         "<span class=\"round  label alert\">#{commits}</span>"
     end
