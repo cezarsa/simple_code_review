@@ -189,7 +189,13 @@ class SimpleCodeReview < Sinatra::Base
     halt 404 unless @repository
 
     @repository.update_repository!
-    @commits = @repository.commits.valid.order_by('timestamp DESC')
+
+    @page = (params[:page] || 1).to_i
+    per_page = 15
+
+    commits = @repository.commits.valid
+    @num_pages = (commits.count / per_page.to_f).ceil
+    @commits = commits.order_by('timestamp DESC').limit(per_page).offset((@page -1) * per_page)
 
     erb :commits
   end
